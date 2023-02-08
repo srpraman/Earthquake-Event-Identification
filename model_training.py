@@ -11,40 +11,6 @@ from tensorflow.keras.layers import Activation, Dropout, Flatten, Dense
 from tensorflow.keras.utils import image_dataset_from_directory, normalize
 from tensorflow.keras.callbacks import ModelCheckpoint
 ####################################################
-'''image_directory = 'home/sairaman/Desktop/stead_dataset/data/'
-
-SIZE = 350
-dataset = []  #Many ways to handle data, you can use pandas. Here, we are using a list format.  
-label = []  #Place holders to define add labels. We will add 0 to all parasitized images and 1 to uninfected.
-
-#parasitized_images = os.listdir(image_directory + 'Parasitized/')
-noise_images = os.listdir(image_directory + 'NOISE')
-for i, image_name in enumerate(noise_images):    #Remember enumerate method adds a counter and returns the enumerate object
-    
-    if (image_name.split('.')[1] == 'png'):
-        image = cv2.imread(image_directory + 'eq/' + image_name)
-        image = cv2.cvtColor(image,cv2.COLOR_BGR2RGB)
-        image = Image.fromarray(image, 'RGB')
-        image = image.resize((SIZE, SIZE))
-        dataset.append(np.array(image))
-        label.append(0)
-
-#Iterate through all images in Uninfected folder, resize to 64 x 64
-#Then save into the same numpy array 'dataset' but with label 1
-
-earthquake_images = os.listdir(image_directory + 'EQ')
-for i, image_name in enumerate(earthquake_images):
-    if (image_name.split('.')[1] == 'png'):
-        image = cv2.imread(image_directory + 'noise/' + image_name)
-        image = cv2.cvtColor(image,cv2.COLOR_BGR2RGB)
-        image = Image.fromarray(image, 'RGB')
-        image = image.resize((SIZE, SIZE))
-        dataset.append(np.array(image))
-        label.append(1)
-
-dataset = np.array(dataset)
-label = np.array(label)'''
-
 #base_dir = "/home/sairaman/Desktop/stead-dataset/data/reshaped_images"
 base_dir = "../data/reshaped_images"
 train_ds = image_dataset_from_directory(base_dir,
@@ -83,14 +49,7 @@ for images, labels in train_ds.take(1):
     plt.title(class_names[labels[i]])
     plt.axis("off")
 '''
-
-#train_ds = train_ds.cache().shuffle(1000).prefetch(buffer_size=AUTOTUNE)
-#val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
-
-
-
 INPUT_SHAPE = (300, 300, 3)   #change to (SIZE, SIZE, 3)
-
 model = Sequential([
     Rescaling(1./255, input_shape=INPUT_SHAPE),
     Conv2D(16, 5, padding='same', activation='relu'),
@@ -131,9 +90,6 @@ val_acc = history.history['val_accuracy']
 
 loss = history.history['loss']
 val_loss = history.history['val_loss']
-
-epochs_range = range(epochs)
-print(epochs_range)
 
 plt.figure(figsize=(8, 8))
 plt.subplot(1, 2, 1)
