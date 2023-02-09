@@ -11,11 +11,6 @@ test_ds = image_dataset_from_directory(base_dir,
 print(test_ds.class_names)   
 model = tf.keras.models.load_model("../data/model/7-02_20epochs")  
 #print(model.evaluate(test))                       
-<<<<<<< HEAD
-for image_batch,label_batch in test.as_numpy_iterator():
-    print(model.predict_on_batch(image_batch))
-    #################
-=======
 label = []
 inp = []
 for x,y in test_ds.as_numpy_iterator():
@@ -23,4 +18,3 @@ for x,y in test_ds.as_numpy_iterator():
     inp.append(x)
     #print(y)
 print(inp.shape)
->>>>>>> aa826f8b19a84af1e1703b6e536a2f539cd064fa
