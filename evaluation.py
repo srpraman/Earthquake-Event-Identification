@@ -13,3 +13,4 @@ model = tf.keras.models.load_model("../data/model/7-02_20epochs")
 #print(model.evaluate(test))                       
 for image_batch,label_batch in test.as_numpy_iterator():
     print(model.predict_on_batch(image_batch))
+    #################
