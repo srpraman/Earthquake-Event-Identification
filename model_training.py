@@ -65,7 +65,7 @@ val_ds = image_dataset_from_directory(base_dir,
                                       seed=123,
                                       image_size=(300, 300),
                                       batch_size=32)
-test = image_dataset_from_directory(base_dir, 
+test_ds = image_dataset_from_directory(base_dir, 
                                     seed = 123,
                                     image_size = (300, 300),
                                     batch_size = 32)
@@ -130,11 +130,11 @@ model_checkpoint_callback = ModelCheckpoint(
     monitor='val_accuracy',
     mode='max',
     save_best_only=True)
-epochs=1
+epochs=20
 history = model.fit(train_ds, validation_data=val_ds, epochs=epochs)
-model.save('../data/model/trial')
-model = keras.models.load_model("../data/model/trial")
-print(model.evaluate(test))
+model.save('../data/model/model_all_param_20epochs')
+model = keras.models.load_model("../data/model/model_all_param_20epochs")
+print(model.evaluate(test_ds))
 
 '''
 from sklearn.metrics import classification_report
@@ -142,9 +142,7 @@ classes = train_ds.class_names
 print(classification_report(labels_entire, pred_entire, target_names=classes))
 '''
 ##############################################################
-# Evaluation metrics
 # Performance Graph
-
 acc = history.history['accuracy']
 val_acc = history.history['val_accuracy']
 
