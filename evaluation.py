@@ -14,7 +14,7 @@ model = tf.keras.models.load_model("../data/model/7-02_20epochs")
 label = []
 inp = []
 for x,y in test_ds.as_numpy_iterator():
-    label.append(y[0]))
+    label.append(y[0])
     inp.append(x)
     #print(y)
 print(inp.shape)
