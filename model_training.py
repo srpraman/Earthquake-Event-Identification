@@ -16,39 +16,6 @@ import sklearn
 from sklearn.metrics import confusion_matrix
 import seaborn as sns
 ####################################################
-'''image_directory = 'home/sairaman/Desktop/stead_dataset/data/'
-
-SIZE = 350
-dataset = []  #Many ways to handle data, you can use pandas. Here, we are using a list format.  
-label = []  #Place holders to define add labels. We will add 0 to all parasitized images and 1 to uninfected.
-
-#parasitized_images = os.listdir(image_directory + 'Parasitized/')
-noise_images = os.listdir(image_directory + 'NOISE')
-for i, image_name in enumerate(noise_images):    #Remember enumerate method adds a counter and returns the enumerate object
-    
-    if (image_name.split('.')[1] == 'png'):
-        image = cv2.imread(image_directory + 'eq/' + image_name)
-        image = cv2.cvtColor(image,cv2.COLOR_BGR2RGB)
-        image = Image.fromarray(image, 'RGB')
-        image = image.resize((SIZE, SIZE))
-        dataset.append(np.array(image))
-        label.append(0)
-
-#Iterate through all images in Uninfected folder, resize to 64 x 64
-#Then save into the same numpy array 'dataset' but with label 1
-
-earthquake_images = os.listdir(image_directory + 'EQ')
-for i, image_name in enumerate(earthquake_images):
-    if (image_name.split('.')[1] == 'png'):
-        image = cv2.imread(image_directory + 'noise/' + image_name)
-        image = cv2.cvtColor(image,cv2.COLOR_BGR2RGB)
-        image = Image.fromarray(image, 'RGB')
-        image = image.resize((SIZE, SIZE))
-        dataset.append(np.array(image))
-        label.append(1)
-
-dataset = np.array(dataset)
-label = np.array(label)'''
 
 #base_dir = "/home/sairaman/Desktop/stead-dataset/data/reshaped_images"
 base_dir = "../data/reshaped_images"
@@ -69,18 +36,6 @@ test_ds = image_dataset_from_directory(base_dir,
                                     seed = 123,
                                     image_size = (300, 300),
                                     batch_size = 32)
-'''
-train_ds = image_dataset_from_directory(base_dir / "train",
-                                             image_size=(300, 300),
-                                             batch_size=32)
-val_ds = image_dataset_from_directory(base_dir / "validation",
-                                             image_size=(300, 300),
-                                             batch_size=32)                                                  
-
-test_ds = image_dataset_from_directory(base_dir / "test",
-                                             image_size=(300, 300),
-                                             batch_size=32)
-'''
 
 '''# plotting some figures
 class_names=train_ds.class_names
@@ -132,9 +87,9 @@ model_checkpoint_callback = ModelCheckpoint(
     save_best_only=True)
 epochs=20
 history = model.fit(train_ds, validation_data=val_ds, epochs=epochs)
-model.save('../data/model/model_all_param_20epochs')
-model = keras.models.load_model("../data/model/model_all_param_20epochs")
-print(model.evaluate(test_ds))
+model.save('../data/model/model_all_param_20epochs_separate_testdata')
+model = keras.models.load_model("../data/model/model_all_param_20epochs_separate_testdata")
+#print(model.evaluate(test_ds))
 
 '''
 from sklearn.metrics import classification_report
