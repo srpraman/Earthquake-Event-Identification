@@ -91,11 +91,6 @@ model.save('../data/model/model_all_param_20epochs_separate_testdata')
 model = keras.models.load_model("../data/model/model_all_param_20epochs_separate_testdata")
 #print(model.evaluate(test_ds))
 
-'''
-from sklearn.metrics import classification_report
-classes = train_ds.class_names
-print(classification_report(labels_entire, pred_entire, target_names=classes))
-'''
 ##############################################################
 # Performance Graph
 acc = history.history['accuracy']
@@ -121,17 +116,3 @@ plt.legend(loc='upper right')
 plt.title('Training and Validation Loss')
 plt.show()
 plt.savefig("../evolution_curve.png")
-
-#Confusion Matrix and Classification Report
-'''from sklearn.metrics import classification_report, confusion_matrix,ConfusionMatrixDisplay
-Y_pred = model.predict(val_ds)
-y_pred = np.argmax(Y_pred, axis=1)
-print('Confusion Matrix')
-print(confusion_matrix(y, y_pred))
-print('Classification Report')
-target_names = ['EARTHQ','NOISE']
-print(classification_report(y, y_pred, target_names=target_names))
-cm = confusion_matrix(y,y_pred)
-disp = ConfusionMatrixDisplay(cm)
-disp.plot()
-plt.show()'''
