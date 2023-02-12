@@ -3,7 +3,7 @@ import numpy as np
 import random
 import shutil
 
-file_list = os.listdir("/home/raman/Desktop/stead_dataset/data/chunk2_ir_removed")
+file_list = os.listdir("/home/sairaman/Desktop/stead-dataset/data/reshaped_images/NOISE")
 setOfNumbers = set()
 numLow = 0
 numHigh = 100000
@@ -15,7 +15,7 @@ setOfNumbers = list(setOfNumbers)
 
 for num in setOfNumbers:
     file_name = file_list[num]
-    source = "/home/raman/Desktop/stead_dataset/data/chunk2_ir_removed/" + file_name
-    dest = "/home/raman/Desktop/stead_dataset/data/test/eq/" + file_name
-    shutil.copy(source,dest)
+    source = "/home/sairaman/Desktop/stead-dataset/data/reshaped_images/NOISE/" + file_name
+    dest = "/home/sairaman/Desktop/stead-dataset/data/test_reshaped_images/NOISE/" + file_name
+    shutil.move(source,dest)
     
