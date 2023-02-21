@@ -1,8 +1,5 @@
 #########################################################
 import matplotlib.pyplot as plt
-import matplotlib.image as mpimg
-import os
-#############################################################
 from tensorflow.data import AUTOTUNE
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.models import Sequential
@@ -12,12 +9,8 @@ from tensorflow.keras.utils import image_dataset_from_directory, normalize
 from tensorflow.keras.callbacks import ModelCheckpoint
 from tensorflow.keras.metrics import BinaryAccuracy, FalsePositives, FalseNegatives, TruePositives, TrueNegatives, Precision, Recall, AUC
 from tensorflow import keras
-import sklearn
-from sklearn.metrics import confusion_matrix
-import seaborn as sns
+import h5py
 ####################################################
-
-#base_dir = "/home/sairaman/Desktop/stead-dataset/data/reshaped_images"
 base_dir = "../data/reshaped_images"
 
 train_ds = image_dataset_from_directory(base_dir,
@@ -32,11 +25,6 @@ val_ds = image_dataset_from_directory(base_dir,
                                       seed=123,
                                       image_size=(300, 300),
                                       batch_size=32)
-test_ds = image_dataset_from_directory(base_dir, 
-                                    seed = 123,
-                                    image_size = (300, 300),
-                                    batch_size = 32)
-
 '''# plotting some figures
 class_names=train_ds.class_names
 plt.figure(figsize=(10, 10))
@@ -50,13 +38,26 @@ for images, labels in train_ds.take(1):
     plt.axis("off")
 '''
 
-#train_ds = train_ds.cache().shuffle(1000).prefetch(buffer_size=AUTOTUNE)
-#val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
+train_ds = train_ds.cache().shuffle(1000).prefetch(buffer_size=AUTOTUNE)
+val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
 
 
 
 INPUT_SHAPE = (300, 300, 3)   #change to (SIZE, SIZE, 3)
 
+'''model = Sequential([
+    Rescaling(1./255, input_shape=INPUT_SHAPE),
+    Conv2D(8, 5, padding='same', activation='relu'),
+    MaxPooling2D(pool_size=(5, 5), strides=(2, 2)),
+    Conv2D(16, 5, padding='same', activation='relu'),
+    MaxPooling2D(pool_size=(5, 5), strides=(2, 2)),
+    Flatten(),
+    BatchNormalization(),
+    Dense(32, activation='relu'),
+    Dropout(0.2),
+    Dense(16, activation='sigmoid'),
+    Dense(1)])'''
+    
 model = Sequential([
     Rescaling(1./255, input_shape=INPUT_SHAPE),
     Conv2D(16, 5, padding='same', activation='relu'),
@@ -64,7 +65,6 @@ model = Sequential([
     Conv2D(32, 5, padding='same', activation='relu'),
     MaxPooling2D(pool_size=(5, 5), strides=(2, 2)),
     Flatten(),
-    BatchNormalization(),
     Dense(32, activation='relu'),
     Dropout(0.2),
     Dense(16, activation='sigmoid'),
@@ -78,18 +78,18 @@ model.compile(loss='binary_crossentropy',
 
 print(model.summary())    
 ###############################################################  
-checkpoint_filepath = "../data/model/checkpoint"
-model_checkpoint_callback = ModelCheckpoint(
-    filepath=checkpoint_filepath,
-    save_weights_only=True,
-    monitor='val_accuracy',
-    mode='max',
-    save_best_only=True)
 epochs=20
-history = model.fit(train_ds, validation_data=val_ds, epochs=epochs)
-model.save('../data/model/model_all_param_20epochs_separate_testdata')
-model = keras.models.load_model("../data/model/model_all_param_20epochs_separate_testdata")
-#print(model.evaluate(test_ds))
+#filepath = "saved-model-{epoch:02d}-{val_acc:.2f}.hdf5"
+checkpoint_filepath = "../data/model/checkpoint_model_01"
+model_checkpoint_callback = ModelCheckpoint(
+                            filepath=checkpoint_filepath,
+                            save_freq='epoch',
+                            monitor='val_accuracy',
+                            mode='max',
+                            save_best_only=True
+                            )
+
+history = model.fit(train_ds, validation_data=val_ds, epochs=epochs, callbacks=[model_checkpoint_callback])
 
 ##############################################################
 # Performance Graph
@@ -115,4 +115,4 @@ plt.plot(epochs_range, val_loss, label='Validation Loss')
 plt.legend(loc='upper right')
 plt.title('Training and Validation Loss')
 plt.show()
-plt.savefig("../evolution_curve.png")
+plt.savefig("../figures/checkpoint_model_01.png")

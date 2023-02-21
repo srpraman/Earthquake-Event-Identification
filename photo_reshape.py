@@ -3,7 +3,7 @@
 from PIL import Image
 import os
 
-noise_path = "/home/sairaman/Desktop/stead-dataset/data/images/NOISE/"
+noise_path = "/home/sairaman/Desktop/trial_folder/"
 eq_path = "/home/sairaman/Desktop/stead-dataset/data/images/EQ/"
 noise_image_list = os.listdir(noise_path)
 eq_image_list = os.listdir(eq_path)
@@ -39,6 +39,6 @@ for image in noise_image_list:
     im1 = im.crop((left, top, right, bottom))
     newsize = (300, 300)
     im1 = im1.resize(newsize)
-    im1.save("/home/sairaman/Desktop/stead-dataset/data/reshaped_images/NOISE/" + image)
+    im1.save("/home/sairaman/Desktop/trial_folder/reshaped_seismograms/" + image)
     count = count + 1
     print(f'done for {count}')

@@ -1,18 +1,21 @@
 import tensorflow as tf
 from tensorflow.keras.utils import image_dataset_from_directory
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import numpy as np
 import sklearn
 from sklearn.metrics import confusion_matrix
 import seaborn as sns
 import matplotlib.pyplot as plt
-base_dir = "../data/test_reshaped_images"
+# base_dir = "../data/test_reshaped_images"
+base_dir = "../../trial_folder/reshaped_seismograms"
 test_ds = image_dataset_from_directory(base_dir, 
                                     seed = 123,
                                     image_size = (300, 300),
-                                    batch_size = 32)
+                                    batch_size = 1)
 
 class_names=test_ds.class_names
-plt.figure(figsize=(10, 10))
+print("class_names", class_names)
+"""plt.figure(figsize=(10, 10))
 for images, labels in test_ds.take(1):
   for i in range(16):
     ax = plt.subplot(4, 4, i + 1)
@@ -20,7 +23,7 @@ for images, labels in test_ds.take(1):
     print(labels[i])
     print(class_names,class_names[labels[i]])
     plt.title(class_names[labels[i]])
-    plt.axis("off")
+    plt.axis("off")"""
     #plt.savefig("trial.png")
 '''class_names = test_ds.class_names
 print(test_ds.class_names)   
@@ -34,10 +37,10 @@ for x,y in test_ds:
 print("label: ", test_labels[0])'''
 
 #Confusion Matrix and Classification Report
-'''model = tf.keras.models.load_model("../data/model/model_all_param_20epochs_separate_testdata")
+model = tf.keras.models.load_model("../data/model/checkpoint_model_02.hdf5")
 results = model.evaluate(test_ds)
 print(results)
-print(f"TP: {results[1]},FP: {results[2]},TN: {results[3]},FN: {results[4]},ACC: {results[5]},PRECISION: {results[6]}, RECALL: {results[7]}, AUC: {results[8]}")'''
+print(f"TP: {results[1]},FP: {results[2]},TN: {results[3]},FN: {results[4]},ACC: {results[5]},PRECISION: {results[6]}, RECALL: {results[7]}, AUC: {results[8]}")
 '''results = model.evaluate(test_ds)
 print("TP,FP,TN,FN,ACC,PRECISION, RECALL, AUC")
 TruePositives = results[1]

@@ -1,0 +1,10 @@
+******************************************
+21-02-23
+covnet: 16,32
+FNN: 32,16
+dropout: 0.2
+NO BATCH NORM
+epochs: 20
+model_name: checkpoint_model_01
+evolutioin_figure: checkpoint_model_01.png
+******************************************
