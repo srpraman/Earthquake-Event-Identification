@@ -60,9 +60,9 @@ INPUT_SHAPE = (300, 300, 3)   #change to (SIZE, SIZE, 3)
     
 model = Sequential([
     Rescaling(1./255, input_shape=INPUT_SHAPE),
-    Conv2D(16, 5, padding='same', activation='relu'),
+    Conv2D(8, 5, padding='same', activation='relu'),
     MaxPooling2D(pool_size=(5, 5), strides=(2, 2)),
-    Conv2D(32, 5, padding='same', activation='relu'),
+    Conv2D(16, 5, padding='same', activation='relu'),
     MaxPooling2D(pool_size=(5, 5), strides=(2, 2)),
     Flatten(),
     Dense(32, activation='relu'),
@@ -80,7 +80,7 @@ print(model.summary())
 ###############################################################  
 epochs=20
 #filepath = "saved-model-{epoch:02d}-{val_acc:.2f}.hdf5"
-checkpoint_filepath = "../data/model/checkpoint_model_01"
+checkpoint_filepath = "../data/model/checkpoint_model_02"
 model_checkpoint_callback = ModelCheckpoint(
                             filepath=checkpoint_filepath,
                             save_freq='epoch',
@@ -115,4 +115,4 @@ plt.plot(epochs_range, val_loss, label='Validation Loss')
 plt.legend(loc='upper right')
 plt.title('Training and Validation Loss')
 plt.show()
-plt.savefig("../figures/checkpoint_model_01.png")
+plt.savefig("../figures/checkpoint_model_02/checkpoint_model_02.png")
