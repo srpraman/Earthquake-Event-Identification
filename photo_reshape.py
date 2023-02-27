@@ -3,13 +3,13 @@
 from PIL import Image
 import os
 
-noise_path = "/home/sairaman/Desktop/trial_folder/"
-eq_path = "/home/sairaman/Desktop/stead-dataset/data/images/EQ/"
+noise_path = "/home/sairaman/Desktop/stead-dataset/data/aug_images/NOISE/"
+eq_path = "/home/sairaman/Desktop/stead-dataset/data/aug_images/EQ/"
 noise_image_list = os.listdir(noise_path)
 eq_image_list = os.listdir(eq_path)
 count = 0
 
-'''for image in eq_image_list:
+for image in eq_image_list:
     im = Image.open(eq_path+image)
     width, height = im.size
     
@@ -22,11 +22,11 @@ count = 0
     im1 = im.crop((left, top, right, bottom))
     newsize = (300, 300)
     im1 = im1.resize(newsize)
-    im1.save("/home/sairaman/Desktop/stead-dataset/data/reshaped_images/EQ/" + image)
+    im1.save("/home/sairaman/Desktop/stead-dataset/data/aug_reshaped_images/EQ/" + image)
     count = count + 1
-    print(f'done for {count}')'''
+    print(f'done for {count}')
 
-for image in noise_image_list:
+'''for image in noise_image_list:
     im = Image.open(noise_path+image)
     width, height = im.size
     
@@ -37,8 +37,8 @@ for image in noise_image_list:
     bottom = 427
 
     im1 = im.crop((left, top, right, bottom))
-    newsize = (300, 300)
+    newsize = (128, 128)
     im1 = im1.resize(newsize)
-    im1.save("/home/sairaman/Desktop/trial_folder/reshaped_seismograms/" + image)
+    im1.save("/home/sairaman/Desktop/stead-dataset/data/aug_reshaped_images/NOISE/" + image)
     count = count + 1
-    print(f'done for {count}')
+    print(f'done for {count}')'''

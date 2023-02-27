@@ -1,5 +1,6 @@
 ******************************************
 21-02-23
+data: reshaped_images(300*300*3)
 covnet: 16,32
 FNN: 32,16
 dropout: 0.2
@@ -10,6 +11,7 @@ evolutioin_figure: checkpoint_model_01.png
 checker_board_test: checkpoint_model_01_checker_board.png
 ******************************************
 21-02-23
+data: reshaped_images(300*300*3)
 covnet: 8,16
 FNN: 32,16
 dropout: 0.2
@@ -18,4 +20,15 @@ epochs: 20
 model_name: checkpoint_model_02
 evolutioin_figure: checkpoint_model_02.png
 checker_board_test: checkpoint_model_02_checker_board.png
+******************************************
+25-02-23
+data: aug_reshaped_images(128*128*3)
+covnet: 8,16
+FNN: 32,16
+dropout: 0.2
+NO BATCH NORM
+epochs: 20
+model_name: checkpoint_model_03
+evolutioin_figure: checkpoint_model_03.png
+checker_board_test: checkpoint_model_03_checker_board.png
 ******************************************

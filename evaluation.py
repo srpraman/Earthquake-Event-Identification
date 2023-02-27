@@ -7,13 +7,14 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 
-base_dir = "../data/test_reshaped_images"
+base_dir = "../data/aug_test_reshaped_images"
 test_ds = image_dataset_from_directory(base_dir, 
                                       seed = 123,
-                                      image_size = (300, 300),
-                                      batch_size = 1)
+                                      image_size = (128, 128),
+                                      batch_size = 128)
 
-"""plt.figure(figsize=(10, 10))
+plt.figure(figsize=(10, 10))
+class_names = test_ds.class_names
 for images, labels in test_ds.take(1):
   for i in range(16):
     ax = plt.subplot(4, 4, i + 1)
@@ -21,14 +22,13 @@ for images, labels in test_ds.take(1):
     print(labels[i])
     print(class_names,class_names[labels[i]])
     plt.title(class_names[labels[i]])
-    plt.axis("off")"""
-    #plt.savefig("trial.png")
+    plt.axis("off")
+    plt.savefig("../data/model/trial_figures.png")
 
-
-#ROC curve
+"""#ROC curve
 class_names = test_ds.class_names
 print(test_ds.class_names)   
-model = tf.keras.models.load_model("../data/model/checkpoint_model_01")  
+model = tf.keras.models.load_model("../data/model/checkpoint_model_03")  
 #probability_model = tf.keras.Sequential([model, tf.keras.layers.Softmax()])
 predictions = model.predict(test_ds).flatten()
 test_labels = []
@@ -40,7 +40,7 @@ fpr_keras, tpr_keras, thresholds_keras = roc_curve(test_labels, predictions)
 from sklearn.metrics import auc
 auc_keras = auc(fpr_keras, tpr_keras)
 ###
-model = tf.keras.models.load_model("../data/model/checkpoint_model_02")  
+model = tf.keras.models.load_model("../data/model/checkpoint_model_03")  
 predictions = model.predict(test_ds).flatten()
 test_labels = []
 for x,y in test_ds:
@@ -60,10 +60,10 @@ plt.ylabel('True positive rate')
 plt.title('ROC curve')
 plt.legend(loc='best')
 plt.savefig("temp.png")
-
+"""
 
 #Confusion Matrix 
-'''model = tf.keras.models.load_model("../data/model/checkpoint_model_01")
+'''model = tf.keras.models.load_model("../data/model/checkpoint_model_03")
 results = model.evaluate(test_ds)
 print("TP,FP,TN,FN,ACC,PRECISION, RECALL, AUC")
 TruePositives = results[1]
@@ -76,4 +76,4 @@ categories = ["Noise","Earthquake"]
 sns.heatmap(cm,annot=True,xticklabels=categories,yticklabels=categories)
 plt.ylabel('True label')
 plt.xlabel('Predicted label')
-plt.savefig('../figures/checkpoint_model_02/checkpoint_model_01_checker_board.png')'''
+plt.savefig('../figures/checkpoint_model_03/checkpoint_model_03_checker_board.png')'''
