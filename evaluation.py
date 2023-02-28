@@ -7,7 +7,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 
-base_dir = "../data/aug_test_reshaped_images"
+base_dir = "../data/test_reshaped_images"
 test_ds = image_dataset_from_directory(base_dir, 
                                       seed = 123,
                                       image_size = (128, 128),
@@ -16,14 +16,14 @@ test_ds = image_dataset_from_directory(base_dir,
 plt.figure(figsize=(10, 10))
 class_names = test_ds.class_names
 for images, labels in test_ds.take(1):
-  for i in range(16):
-    ax = plt.subplot(4, 4, i + 1)
+  for i in range(10,19):
+    ax = plt.subplot(3, 3, i + 1-10)
     plt.imshow(images[i].numpy().astype("uint8"))
     print(labels[i])
     print(class_names,class_names[labels[i]])
     plt.title(class_names[labels[i]])
     plt.axis("off")
-    plt.savefig("../data/model/trial_figures.png")
+    plt.savefig("../figures/all_sample_figures.png")
 
 """#ROC curve
 class_names = test_ds.class_names
