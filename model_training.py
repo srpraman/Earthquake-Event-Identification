@@ -11,19 +11,20 @@ from tensorflow.keras.metrics import BinaryAccuracy, FalsePositives, FalseNegati
 from tensorflow import keras
 import h5py
 ####################################################
-base_dir = "../data/aug_reshaped_images"
-
+base_dir = "../data/reshaped_images"
+length= 300
+height =300
 train_ds = image_dataset_from_directory(base_dir,
                                         validation_split=0.2,
                                         subset="training",
                                         seed=123,
-                                        image_size=(128, 128),
+                                        image_size=(length,height),
                                         batch_size=32)
 val_ds = image_dataset_from_directory(base_dir,
                                       validation_split=0.2,
                                       subset="validation",
                                       seed=123,
-                                      image_size=(128, 128),
+                                      image_size=(length, height),
                                       batch_size=32)
 '''# plotting some figures
 class_names=train_ds.class_names
@@ -43,7 +44,7 @@ val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
 
 
 
-INPUT_SHAPE = (128, 128, 3)   #change to (SIZE, SIZE, 3)
+INPUT_SHAPE = (length, height, 3)   #change to (SIZE, SIZE, 3)
 
 '''model = Sequential([
     Rescaling(1./255, input_shape=INPUT_SHAPE),
@@ -68,7 +69,7 @@ model = Sequential([
     Dense(32, activation='relu'),
     Dropout(0.2),
     Dense(16, activation='sigmoid'),
-    Dense(1)])
+    Dense(1, activation='sigmoid')])
 
 metrics = [TruePositives(name='tp'), FalsePositives(name='fp'), TrueNegatives(name='tn'), FalseNegatives(name='fn'),
            BinaryAccuracy(name='accuracy'), Precision(name='precision'), Recall(name='recall'), AUC(name='auc')]
@@ -80,7 +81,7 @@ print(model.summary())
 ###############################################################  
 epochs=20
 #filepath = "saved-model-{epoch:02d}-{val_acc:.2f}.hdf5"
-checkpoint_filepath = "../data/model/checkpoint_model_03"
+checkpoint_filepath = "../data/model/trial"
 model_checkpoint_callback = ModelCheckpoint(
                             filepath=checkpoint_filepath,
                             save_freq='epoch',
@@ -114,4 +115,4 @@ plt.plot(epochs_range, val_loss, label='Validation Loss')
 plt.legend(loc='upper right')
 plt.title('Training and Validation Loss')
 plt.show()
-plt.savefig("../figures/checkpoint_model_03/checkpoint_model_03.png")
+plt.savefig("../figures/trial.png") # checkpoint_model_03/checkpoint_model_03.png")

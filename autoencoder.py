@@ -29,31 +29,31 @@ autoencoder.compile(optimizer ="adam", loss ="mse")
 print(autoencoder.summary()) 
 # Training the Auto-encoder network
 autoencoder.fit(test_dataset, test_dataset, epochs = 10, batch_size=256, shuffle = True, validation_split = 0.20)'''
-
+import tensorflow as tf
 import matplotlib.pyplot as plt
 import seaborn as sns
-from tensorflow.data import AUTOTUNE
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, BatchNormalization, Rescaling
 from tensorflow.keras.layers import Activation, Dropout, Flatten, Dense
 from tensorflow.keras.utils import image_dataset_from_directory, normalize, get_file
 from tensorflow.keras.callbacks import ModelCheckpoint
-from tensorflow.keras.metrics import BinaryAccuracy, FalsePositives, FalseNegatives, TruePositives, TrueNegatives, Precision, Recall, AUC
 from keras.layers import LSTM, RepeatVector, TimeDistributed
 from tensorflow import keras
 import h5py
 import numpy as np
 import time
 
-test = np.load("../data/waveforms/chunk2_to_1d_array_train_normalized.npz")
-data = test["arr_0"].reshape((86376,3500,1))
+
+test = np.load("../data/waveforms/chunk2_to_1d_array_test_normalized.npz")
+# train_dataset = tf.convert_to_tensor(np.load("../data/waveforms/chunk2_to_1d_array_train_normalized.npz")['arr_0'], dtype=tf.float32)
+# data = test["arr_0"].reshape((86376,3500,1))
+data = test['arr_0'][:, 0:100]
+data = tf.reshape(data, [data.shape[0], data.shape[1], 1])
 # define model
 
 model = Sequential()
-model.add(LSTM(100, activation='relu', input_shape=(3500,1)))
-model.add(RepeatVector(3500))
-model.add(LSTM(100, activation='relu', return_sequences=True))
+
+model.add(LSTM(10, activation='relu', return_sequences=True))
 model.add(TimeDistributed(Dense(1)))
 model.compile(optimizer='adam', loss='mse')
 model.fit(data, data, epochs=30, verbose=1, batch_size = 32)

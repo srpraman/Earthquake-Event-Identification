@@ -32,3 +32,15 @@ model_name: checkpoint_model_03
 evolutioin_figure: checkpoint_model_03.png
 checker_board_test: checkpoint_model_03_checker_board.png
 ******************************************
+5-03-23
+data: aug_reshaped_images(300*300*3)
+split 0.2
+covnet: 8,16
+FNN: 32,16
+dropout: 0.2
+NO BATCH NORM
+sigmoid layer at the end
+epochs: 20
+model_name: trial
+evolutioin_figure: trial.png
+checker_board_test: not done
