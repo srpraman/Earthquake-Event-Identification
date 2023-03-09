@@ -26,7 +26,7 @@ for image in eq_image_list:
     count = count + 1
     print(f'done for {count}')
 
-'''for image in noise_image_list:
+for image in noise_image_list:
     im = Image.open(noise_path+image)
     width, height = im.size
     
@@ -41,4 +41,4 @@ for image in eq_image_list:
     im1 = im1.resize(newsize)
     im1.save("/home/sairaman/Desktop/stead-dataset/data/aug_reshaped_images/NOISE/" + image)
     count = count + 1
-    print(f'done for {count}')'''
+    print(f'done for {count}')
