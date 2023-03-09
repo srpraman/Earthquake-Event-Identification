@@ -11,77 +11,55 @@ from tensorflow.keras.metrics import BinaryAccuracy, FalsePositives, FalseNegati
 from tensorflow import keras
 import h5py
 ####################################################
-base_dir = "../data/reshaped_images"
-length= 300
-height =300
-train_ds = image_dataset_from_directory(base_dir,
-                                        validation_split=0.8,
-                                        subset="training",
-                                        seed=123,
-                                        image_size=(length,height),
-                                        batch_size=32)
-val_ds = image_dataset_from_directory(base_dir,
-                                      validation_split=0.8,
-                                      subset="validation",
-                                      seed=123,
-                                      image_size=(length, height),
-                                      batch_size=32)
-'''# plotting some figures
-class_names=train_ds.class_names
-plt.figure(figsize=(10, 10))
-for images, labels in train_ds.take(1):
-  for i in range(16):
-    ax = plt.subplot(4, 4, i + 1)
-    plt.imshow(images[i].numpy().astype("uint8"))
-    print(labels[i])
-    print(class_names,class_names[labels[i]])
-    plt.title(class_names[labels[i]])
-    plt.axis("off")
-'''
 
-train_ds = train_ds.cache().shuffle(1000).prefetch(buffer_size=AUTOTUNE)
-val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
+def data_creation(base_dir, length, height):
+    train_ds = image_dataset_from_directory(base_dir,
+                                                validation_split=0.8,
+                                                subset="training",
+                                                seed=123,
+                                                image_size=(length, height),
+                                                batch_size=32)
+    val_ds = image_dataset_from_directory(base_dir,
+                                            validation_split=0.8,
+                                            subset="validation",
+                                            seed=123,
+                                            image_size=(length, height),
+                                            batch_size=32)
+    train_ds = train_ds.cache().shuffle(1000).prefetch(buffer_size=AUTOTUNE)
+    val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
 
+    return train_ds, val_ds
 
+def create_model(INPUT_SHAPE):
+    model = Sequential([
+        Rescaling(1./255, input_shape=INPUT_SHAPE),
+        Conv2D(8, 5, padding='same', activation='relu'),
+        MaxPooling2D(pool_size=(5, 5), strides=(2, 2)),
+        Conv2D(16, 5, padding='same', activation='relu'),
+        MaxPooling2D(pool_size=(5, 5), strides=(2, 2)),
+        Flatten(),
+        Dense(32, activation='relu'),
+        Dropout(0.2),
+        Dense(16, activation='sigmoid'),
+        Dense(1, activation='sigmoid')])
 
-INPUT_SHAPE = (length, height, 3)   #change to (SIZE, SIZE, 3)
+    metrics = [TruePositives(name='tp'), FalsePositives(name='fp'), TrueNegatives(name='tn'), FalseNegatives(name='fn'),
+            BinaryAccuracy(name='accuracy'), Precision(name='precision'), Recall(name='recall'), AUC(name='auc')]
+    model.compile(loss='binary_crossentropy',
+                optimizer='adam',            
+                metrics=metrics)
+    return model
 
-'''model = Sequential([
-    Rescaling(1./255, input_shape=INPUT_SHAPE),
-    Conv2D(8, 5, padding='same', activation='relu'),
-    MaxPooling2D(pool_size=(5, 5), strides=(2, 2)),
-    Conv2D(16, 5, padding='same', activation='relu'),
-    MaxPooling2D(pool_size=(5, 5), strides=(2, 2)),
-    Flatten(),
-    BatchNormalization(),
-    Dense(32, activation='relu'),
-    Dropout(0.2),
-    Dense(16, activation='sigmoid'),
-    Dense(1)])'''
-    
-model = Sequential([
-    Rescaling(1./255, input_shape=INPUT_SHAPE),
-    Conv2D(8, 5, padding='same', activation='relu'),
-    MaxPooling2D(pool_size=(5, 5), strides=(2, 2)),
-    Conv2D(16, 5, padding='same', activation='relu'),
-    MaxPooling2D(pool_size=(5, 5), strides=(2, 2)),
-    Flatten(),
-    Dense(32, activation='relu'),
-    Dropout(0.2),
-    Dense(16, activation='sigmoid'),
-    Dense(1, activation='sigmoid')])
-
-metrics = [TruePositives(name='tp'), FalsePositives(name='fp'), TrueNegatives(name='tn'), FalseNegatives(name='fn'),
-           BinaryAccuracy(name='accuracy'), Precision(name='precision'), Recall(name='recall'), AUC(name='auc')]
-model.compile(loss='binary_crossentropy',
-              optimizer='adam',            
-              metrics=metrics)
-
+base_dir = "../data/aug_reshaped_images"
+length = 128
+height = 128
+layers = 3
+train_ds, val_ds = data_creation(base_dir, length, height)
+model = create_model((length, height, layers))
 print(model.summary())    
 ###############################################################  
 epochs=20
-#filepath = "saved-model-{epoch:02d}-{val_acc:.2f}.hdf5"
-checkpoint_filepath = "../data/model/trial"
+checkpoint_filepath = "../data/model/trial_20per_data"
 model_checkpoint_callback = ModelCheckpoint(
                             filepath=checkpoint_filepath,
                             save_freq='epoch',
@@ -90,9 +68,8 @@ model_checkpoint_callback = ModelCheckpoint(
                             save_best_only=True)
 
 history = model.fit(train_ds, validation_data=val_ds, epochs=epochs, callbacks=[model_checkpoint_callback])
-
 ##############################################################
-# Performance Graph
+# # Performance Graph
 acc = history.history['accuracy']
 val_acc = history.history['val_accuracy']
 
@@ -115,4 +92,4 @@ plt.plot(epochs_range, val_loss, label='Validation Loss')
 plt.legend(loc='upper right')
 plt.title('Training and Validation Loss')
 plt.show()
-plt.savefig("../figures/trial.png") # checkpoint_model_03/checkpoint_model_03.png")
+plt.savefig("../figures/trial_20per_data.png") # checkpoint_model_03/checkpoint_model_03.png")
