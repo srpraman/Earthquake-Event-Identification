@@ -81,6 +81,7 @@ plt.savefig('../figures/trail_cm.png')'''
 model = tf.keras.models.load_model("../data/model/trial")
 base_dir = base_dir + 'EQ/'
 file_list = os.listdir(base_dir)
+class_names = test_ds.class_names
 for file in file_list:
   print(file)
   image = tf.keras.utils.load_img(base_dir+file, target_size=(300, 300))
