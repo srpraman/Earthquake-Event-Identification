@@ -5,13 +5,14 @@ from sklearn.metrics import confusion_matrix
 import seaborn as sns
 import matplotlib.pyplot as plt
 import os
-#base_dir = "../data/test_reshaped_images"
+base_dir = "../data/aug_test_reshaped_images"
 # base_dir = "../../trial_folder/reshaped_seismograms/"
-base_dir = "../../filter/NOISE_spec_reshape/"
+#base_dir = "../../filter/NOISE_spec_reshape/"
 test_ds = tf.keras.utils.image_dataset_from_directory(base_dir, 
                                       seed = 123,
-                                      image_size = (300, 300),
-                                      batch_size = 1)
+                                      image_size = (128, 128),
+                                      batch_size = 64)
+
 '''test_labels = []
 for x,y in test_ds:
     test_labels.append(y.numpy()[0])
@@ -61,8 +62,8 @@ plt.savefig("temp.png")
 test_labels = np.load("../data/evaluation/checkpoint_model_04/test_labels.npz")
 predictions = np.load("../data/evaluation/checkpoint_model_04/predictions.npz")'''
 
-'''# Confusion Matrix 
-model = tf.keras.models.load_model("../data/model/trial")
+# Confusion Matrix 
+model = tf.keras.models.load_model("../data/model/trial_20per_data")
 results = model.evaluate(test_ds)
 print("TP,FP,TN,FN,ACC,PRECISION, RECALL, AUC")
 TruePositives = results[1]
@@ -75,9 +76,9 @@ categories = ["Noise","Earthquake"]
 sns.heatmap(cm,annot=True,xticklabels=categories,yticklabels=categories)
 plt.ylabel('True label')
 plt.xlabel('Predicted label')
-plt.savefig('../figures/trail_cm.png')'''
+plt.savefig('../figures/trail_cm.png')
 
-# load image
+'''# load image
 model = tf.keras.models.load_model("../data/model/trial")
 base_dir = base_dir + 'EQ/'
 file_list = os.listdir(base_dir)
@@ -88,4 +89,4 @@ for file in file_list:
   input_arr = tf.keras.utils.img_to_array(image)
   input_arr = np.array([input_arr])  # Convert single image to a batch.
   predictions = model.predict(input_arr) #.argmax(axis = -1)
-  print(predictions)
+  print(predictions)'''

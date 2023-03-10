@@ -14,13 +14,13 @@ import h5py
 
 def data_creation(base_dir, length, height):
     train_ds = image_dataset_from_directory(base_dir,
-                                                validation_split=0.8,
+                                                validation_split=0.2,
                                                 subset="training",
                                                 seed=123,
                                                 image_size=(length, height),
                                                 batch_size=32)
     val_ds = image_dataset_from_directory(base_dir,
-                                            validation_split=0.8,
+                                            validation_split=0.2,
                                             subset="validation",
                                             seed=123,
                                             image_size=(length, height),
@@ -33,16 +33,16 @@ def data_creation(base_dir, length, height):
 def create_model(INPUT_SHAPE):
     model = Sequential([
         Rescaling(1./255, input_shape=INPUT_SHAPE),
-        Conv2D(8, 5, padding='same', activation='relu'),
-        MaxPooling2D(pool_size=(5, 5), strides=(2, 2)),
-        Conv2D(16, 5, padding='same', activation='relu'),
-        MaxPooling2D(pool_size=(5, 5), strides=(2, 2)),
+        Conv2D(8, 5, padding='same', activation='relu', name='layer1'),
+        MaxPooling2D(pool_size=(5, 5), strides=(2, 2), name='layer2'),
+        Conv2D(16, 5, padding='same', activation='relu', name='layer3'),
+        MaxPooling2D(pool_size=(5, 5), strides=(2, 2), name='layer4'),
         Flatten(),
-        Dense(32, activation='relu'),
+        Dense(32, activation='relu', name='layer5'),
         Dropout(0.2),
-        Dense(16, activation='sigmoid'),
-        Dense(1, activation='sigmoid')])
-
+        Dense(16, activation='sigmoid', name='layer6'),
+        Dense(1, activation='sigmoid', name='layer7')])
+    
     metrics = [TruePositives(name='tp'), FalsePositives(name='fp'), TrueNegatives(name='tn'), FalseNegatives(name='fn'),
             BinaryAccuracy(name='accuracy'), Precision(name='precision'), Recall(name='recall'), AUC(name='auc')]
     model.compile(loss='binary_crossentropy',
@@ -50,16 +50,16 @@ def create_model(INPUT_SHAPE):
                 metrics=metrics)
     return model
 
-base_dir = "../data/aug_reshaped_images"
-length = 128
-height = 128
+base_dir = "../data/reshaped_images"
+length = 300
+height = 300
 layers = 3
 train_ds, val_ds = data_creation(base_dir, length, height)
 model = create_model((length, height, layers))
 print(model.summary())    
 ###############################################################  
 epochs=20
-checkpoint_filepath = "../data/model/trial_20per_data"
+checkpoint_filepath = "../data/model/cp2_with_layer_names"
 model_checkpoint_callback = ModelCheckpoint(
                             filepath=checkpoint_filepath,
                             save_freq='epoch',
@@ -92,4 +92,4 @@ plt.plot(epochs_range, val_loss, label='Validation Loss')
 plt.legend(loc='upper right')
 plt.title('Training and Validation Loss')
 plt.show()
-plt.savefig("../figures/trial_20per_data.png") # checkpoint_model_03/checkpoint_model_03.png")
+plt.savefig("../figures/cp2_with_layer_names.png") # checkpoint_model_03/checkpoint_model_03.png")

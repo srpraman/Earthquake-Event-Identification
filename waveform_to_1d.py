@@ -4,10 +4,12 @@ import obspy
 import numpy as np
 
 x = np.linspace(0,180,num=4500)
-file_list = os.listdir("/home/sairaman/Desktop/stead-dataset/data/waveforms/chunk2_ir_removed")
+file_list = os.listdir("/home/sairaman/Desktop/stead-dataset/data/waveforms/chunk1_ir_removed")
 data = []
 label = []
-os.chdir("/home/sairaman/Desktop/stead-dataset/data/waveforms/chunk2_ir_removed")
+file_list = file_list[0:15000]
+count = 0
+os.chdir("/home/sairaman/Desktop/stead-dataset/data/waveforms/chunk1_ir_removed")
 for file_name in file_list:
     print(file_name)
     st = obspy.read(file_name)
@@ -16,16 +18,18 @@ for file_name in file_list:
     tr.interpolate(sampling_rate=25.0)
     tr.filter('bandpass', freqmin=2, freqmax=10, corners=2, zerophase=True)
     if len(tr.data) == 4500:
-        data.append(tr.data[1000: ]/max(tr.data[1000: ]))
+        data.append(tr.data/max(tr.data))
+        count = count + 1
         #tr.plot()
         #plt.plot(x,tr.data)
         #plt.show()
         label.append(file_name)
     elif len(tr.data) == 4501:
-        data.append(tr.data[1000:-1]/max(tr.data[1000:-1]))
-        label.append(file_name)
+        #data.append(tr.data/max(tr.data))
+        # data.append(tr.data[1000:-1]/max(tr.data[1000:-1]))
+        #label.append(file_name)
+        pass
     else:
         pass
-        
-np.savez_compressed('/home/sairaman/Desktop/stead-dataset/data/waveforms/chunk2_to_1d_array_normalized.npz', **dict(zip(label,data)))
-# print(np.load('/home/sairaman/Desktop/stead-dataset/data/waveforms/chunk2_to_1d_array.npz').files)
+print(count)
+np.save('/home/sairaman/Desktop/stead-dataset/data/waveforms/trial_noise.npy', **dict(zip(label,data)))
