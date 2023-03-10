@@ -1,4 +1,16 @@
-#########################################################
+from training_modules import *
+
+base_dir = "../data/reshaped_images"
+length = 300
+height = 300
+checkpoint_filepath = "../data/model/cp2_with_layer_names"
+epochs=20
+cnn_model = CNN(base_dir, height, length, 32)
+cnn_model.Create_model()
+cnn_model.Train_model(epochs=epochs, checkpoint_filepath=checkpoint_filepath)
+cnn_model.Training_graph(fig_name='trial_evol.png')
+
+'''#########################################################
 import matplotlib.pyplot as plt
 from tensorflow.data import AUTOTUNE
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
@@ -92,4 +104,4 @@ plt.plot(epochs_range, val_loss, label='Validation Loss')
 plt.legend(loc='upper right')
 plt.title('Training and Validation Loss')
 plt.show()
-plt.savefig("../figures/cp2_with_layer_names.png") # checkpoint_model_03/checkpoint_model_03.png")
+plt.savefig("../figures/cp2_with_layer_names.png") # checkpoint_model_03/checkpoint_model_03.png")'''

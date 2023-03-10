@@ -1,17 +1,19 @@
-import tensorflow as tf
-import numpy as np
-import sklearn
-from sklearn.metrics import confusion_matrix
-import seaborn as sns
-import matplotlib.pyplot as plt
 import os
-base_dir = "../data/aug_test_reshaped_images"
+from evaluation_modules import *
+
+model_path = "../data/model/cp2_with_layer_names"
+base_dir = "../data/test_reshaped_images"
+eval = Evaluation(model_path, base_dir, 300, 300, 32) #for ROC curve put batchsize = 1
+eval.Confusion_matrix(fig_name='cm.png')
+
+
+'''base_dir = "../data/aug_test_reshaped_images"
 # base_dir = "../../trial_folder/reshaped_seismograms/"
 #base_dir = "../../filter/NOISE_spec_reshape/"
 test_ds = tf.keras.utils.image_dataset_from_directory(base_dir, 
                                       seed = 123,
                                       image_size = (128, 128),
-                                      batch_size = 64)
+                                      batch_size = 64)'''
 
 '''test_labels = []
 for x,y in test_ds:
@@ -58,11 +60,9 @@ plt.ylabel('True positive rate')
 plt.title('ROC curve')
 plt.legend(loc='best')
 plt.savefig("temp.png")
+'''
 
-test_labels = np.load("../data/evaluation/checkpoint_model_04/test_labels.npz")
-predictions = np.load("../data/evaluation/checkpoint_model_04/predictions.npz")'''
-
-# Confusion Matrix 
+'''# Confusion Matrix 
 model = tf.keras.models.load_model("../data/model/trial_20per_data")
 results = model.evaluate(test_ds)
 print("TP,FP,TN,FN,ACC,PRECISION, RECALL, AUC")
@@ -76,7 +76,7 @@ categories = ["Noise","Earthquake"]
 sns.heatmap(cm,annot=True,xticklabels=categories,yticklabels=categories)
 plt.ylabel('True label')
 plt.xlabel('Predicted label')
-plt.savefig('../figures/trail_cm.png')
+plt.savefig('../figures/trail_cm.png')'''
 
 '''# load image
 model = tf.keras.models.load_model("../data/model/trial")
