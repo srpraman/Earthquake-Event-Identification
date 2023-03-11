@@ -40,8 +40,7 @@ class CNN:
             Dense(32, activation='relu', name='layer5'),
             Dropout(dropout),
             Dense(16, activation='sigmoid', name='layer6'),
-            Dense(1, activation='sigmoid', name='layer7')])
-        
+            Dense(1, activation='sigmoid', name='layer7')])      
         metrics = [TruePositives(name='tp'), FalsePositives(name='fp'), TrueNegatives(name='tn'), FalseNegatives(name='fn'),
                 BinaryAccuracy(name='accuracy'), Precision(name='precision'), Recall(name='recall'), AUC(name='auc')]
         self.model.compile(loss='binary_crossentropy',

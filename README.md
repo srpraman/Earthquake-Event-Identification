@@ -1,4 +1,6 @@
-# 1> Spectrogram creation from sac files
-# 2> Reshaping spectrogram images
-# 3> Feed that into model
-# 4> Evaluation
+# Steps
+## > Spectrogram creation from sac files
+## > Reshaping spectrogram images
+## > Feed that into model
+## > Evaluation
+# 
