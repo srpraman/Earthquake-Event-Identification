@@ -13,14 +13,14 @@ cnn_model.Training_graph(fig_name='trial_evol.png')'''
 #########################################################
 import matplotlib.pyplot as plt
 from tensorflow.data import AUTOTUNE
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv2D, MaxPooling2D, BatchNormalization, Rescaling
-from tensorflow.keras.layers import Activation, Dropout, Flatten, Dense
-from tensorflow.keras.utils import image_dataset_from_directory, normalize
-from tensorflow.keras.callbacks import ModelCheckpoint
-from tensorflow.keras.metrics import BinaryAccuracy, FalsePositives, FalseNegatives, TruePositives, TrueNegatives, Precision, Recall, AUC
 from tensorflow import keras
+from keras.preprocessing.image import ImageDataGenerator
+from keras.models import Sequential
+from keras.layers import Conv2D, MaxPooling2D, BatchNormalization, Rescaling
+from keras.layers import Activation, Dropout, Flatten, Dense
+from keras.utils import image_dataset_from_directory, normalize
+from keras.callbacks import ModelCheckpoint
+from keras.metrics import BinaryAccuracy, FalsePositives, FalseNegatives, TruePositives, TrueNegatives, Precision, Recall, AUC
 import h5py
 ####################################################
 
