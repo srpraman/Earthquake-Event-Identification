@@ -1,7 +1,7 @@
 import os
-from evaluation_modules import *
+from modules import *
 
-model_path = "../data/model/cp2_with_layer_names"
+model_path = '../data/model/checkpoint_model_04'
 base_dir = "../data/test_reshaped_images"
 eval = Evaluation(model_path, base_dir, 300, 300, 32) #for ROC curve put batchsize = 1
 eval.Confusion_matrix(fig_name='cm.png')
