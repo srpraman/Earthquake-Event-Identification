@@ -149,3 +149,5 @@ class Evaluation:
         plt.legend(loc='best')
         name = "../figures/" + fig_name
         plt.savefig(name)
+    
+    

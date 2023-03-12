@@ -11,7 +11,7 @@ cnn_model.Train_model(epochs=epochs, checkpoint_filepath=checkpoint_filepath)
 cnn_model.Training_graph(fig_name='trial_evol.png')'''
 
 #########################################################
-import matplotlib.pyplot as plt
+'''import matplotlib.pyplot as plt
 from tensorflow.data import AUTOTUNE
 from tensorflow import keras
 from keras.preprocessing.image import ImageDataGenerator
@@ -21,7 +21,6 @@ from keras.layers import Activation, Dropout, Flatten, Dense
 from keras.utils import image_dataset_from_directory, normalize
 from keras.callbacks import ModelCheckpoint
 from keras.metrics import BinaryAccuracy, FalsePositives, FalseNegatives, TruePositives, TrueNegatives, Precision, Recall, AUC
-import h5py
 ####################################################
 
 def data_creation(base_dir, length, height):
@@ -104,4 +103,4 @@ plt.plot(epochs_range, val_loss, label='Validation Loss')
 plt.legend(loc='upper right')
 plt.title('Training and Validation Loss')
 plt.show()
-plt.savefig("../figures/cp2_with_layer_names.png") # checkpoint_model_03/checkpoint_model_03.png")
+plt.savefig("../figures/cp2_with_layer_names.png") # checkpoint_model_03/checkpoint_model_03.png")'''
