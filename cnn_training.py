@@ -1,4 +1,4 @@
-'''from modules import *
+from modules import *
 
 base_dir = "../data/reshaped_images"
 length = 300
@@ -8,7 +8,7 @@ epochs=20
 cnn_model = CNN(base_dir, height, length, 32)
 cnn_model.Create_model()
 cnn_model.Train_model(epochs=epochs, checkpoint_filepath=checkpoint_filepath)
-cnn_model.Training_graph(fig_name='trial_evol.png')'''
+cnn_model.Training_graph(fig_name='trial_evol.png')
 
 #########################################################
 '''import matplotlib.pyplot as plt
