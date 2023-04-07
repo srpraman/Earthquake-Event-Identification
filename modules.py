@@ -25,18 +25,20 @@ class CNN:
                                                 subset="training",
                                                 seed=123,
                                                 image_size=(self.length, self.height),
-                                                batch_size=batch_size)
+                                                batch_size=batch_size,
+                                                color_mode='grayscale')
         self.val_ds = image_dataset_from_directory(data_path,
                                             validation_split=0.2,
                                             subset="validation",
                                             seed=123,
                                             image_size=(self.length, self.height),
-                                            batch_size=batch_size)
+                                            batch_size=batch_size,
+                                            color_mode='grayscale')
         self.train_ds = self.train_ds.cache().shuffle(1000).prefetch(buffer_size=AUTOTUNE)
         self.val_ds = self.val_ds.cache().prefetch(buffer_size=AUTOTUNE)
         
     def Create_model(self, filter_size=5, pool=5, stride=2, dropout=0.2):
-        self.input_shape = (self.length, self.height, 3)
+        self.input_shape = (self.length, self.height, 1)
         self.model = Sequential([
             Rescaling(1./255, input_shape=self.input_shape),
             Conv2D(8, filter_size, padding='same', activation='relu', name='layer1'),
@@ -97,10 +99,11 @@ class Evaluation:
     def __init__(self, model_path, data_path, height, length, batch_size):
         self.model = tf.keras.models.load_model(model_path)
         self.data = tf.keras.utils.image_dataset_from_directory(data_path, 
-                                      seed = 123,
-                                      image_size = (height, length),
-                                      batch_size = batch_size)
-    
+                                                                seed = 123,
+                                                                image_size = (height, length),
+                                                                batch_size = batch_size,
+                                                                color_mode='grayscale')
+        self.class_names = self.data.class_names
     def Confusion_matrix(self, fig_name='cm.png'):
         self.results = self.model.evaluate(self.data)
         print("TP,FP,TN,FN,ACC,PRECISION, RECALL, AUC")

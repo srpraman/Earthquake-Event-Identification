@@ -3,12 +3,12 @@ from modules import *
 base_dir = "../data/reshaped_images"
 length = 300
 height = 300
-checkpoint_filepath = "../data/model/cp2_with_layer_names"
+checkpoint_filepath = "../data/model/checkpoint_model_05"
 epochs=20
 cnn_model = CNN(base_dir, height, length, 32)
 cnn_model.Create_model()
 cnn_model.Train_model(epochs=epochs, checkpoint_filepath=checkpoint_filepath)
-cnn_model.Training_graph(fig_name='trial_evol.png')
+cnn_model.Training_graph(fig_name='checkpoint_model_05/checkpoint_model_05.png')
 
 #########################################################
 '''import matplotlib.pyplot as plt

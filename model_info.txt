@@ -44,3 +44,16 @@ epochs: 20
 model_name: checkpoint_model_04
 evolutioin_figure: trial.png
 checker_board_test: not done
+******************************************
+13-03-23
+data: reshaped_images(300*300*1)
+split 0.2
+covnet: 8,16
+FNN: 32,16
+dropout: 0.2
+NO BATCH NORM
+sigmoid layer at the end
+epochs: 20
+model_name: checkpoint_model_05
+evolutioin_figure: trial.png
+checker_board_test: not done
